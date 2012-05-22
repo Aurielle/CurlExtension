@@ -13,7 +13,7 @@ namespace Kdyby\Extension\Curl;
 use Kdyby;
 use Nette;
 use Nette\Utils\Strings;
-use Nette\Utils\Arrays;
+use Nette\Utils\Arrays as NArrays;
 
 
 
@@ -48,7 +48,7 @@ class HttpCookies extends Nette\ArrayHash
 	 */
 	public function compile()
 	{
-		$cookies = Kdyby\Tools\Arrays::flatMapAssoc($this, function ($value, $keys) {
+		$cookies = Arrays::flatMapAssoc($this, function ($value, $keys) {
 			$name = implode('][', array_map('urlencode', $keys));
 			$name = count($keys) > 1 ? (substr_replace($name, '', strpos($name, ']'), 1) . ']') : $name;
 			return $name . '=' . urlencode($value);
@@ -88,7 +88,7 @@ class HttpCookies extends Nette\ArrayHash
 
 			} else {
 				$keys = explode('[', str_replace(']', '', $name));
-				$cookieValue =& Arrays::getRef($arr =& $this->{array_shift($keys)}, $keys);
+				$cookieValue =& NArrays::getRef($arr =& $this->{array_shift($keys)}, $keys);
 				$cookieValue = $cookie['value'];
 				unset($cookieValue);
 			}
